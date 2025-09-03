@@ -35,10 +35,13 @@ Posts.exists = async function (pids) {
 	);
 };
 
-Posts.getPidsFromSet = async function (set, start, stop, reverse) {
+Posts.getPidsFromSet = async function (...params) {
+	const [set, start, stop, reverse] = params;
+	console.log('Fahad Abdulla');
 	if (isNaN(start) || isNaN(stop)) {
 		return [];
 	}
+	
 	return await db[reverse ? 'getSortedSetRevRange' : 'getSortedSetRange'](set, start, stop);
 };
 
@@ -56,7 +59,9 @@ Posts.getPostsByPids = async function (pids, uid) {
 	return data.posts.filter(Boolean);
 };
 
-Posts.getPostSummariesFromSet = async function (set, uid, start, stop) {
+Posts.getPostSummariesFromSet = async function (...params) {
+	const [set, uid, start, stop] = params;
+	console.log('Fahad Abdulla');
 	let pids = await db.getSortedSetRevRange(set, start, stop);
 	pids = await privileges.posts.filter('topics:read', pids, uid);
 	const posts = await Posts.getPostSummaryByPids(pids, uid, { stripTags: false });
