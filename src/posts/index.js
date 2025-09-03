@@ -37,7 +37,6 @@ Posts.exists = async function (pids) {
 
 Posts.getPidsFromSet = async function (...params) {
 	const [set, start, stop, reverse] = params;
-	console.log('Fahad Abdulla');
 	if (isNaN(start) || isNaN(stop)) {
 		return [];
 	}
@@ -61,7 +60,6 @@ Posts.getPostsByPids = async function (pids, uid) {
 
 Posts.getPostSummariesFromSet = async function (...params) {
 	const [set, uid, start, stop] = params;
-	console.log('Fahad Abdulla');
 	let pids = await db.getSortedSetRevRange(set, start, stop);
 	pids = await privileges.posts.filter('topics:read', pids, uid);
 	const posts = await Posts.getPostSummaryByPids(pids, uid, { stripTags: false });
